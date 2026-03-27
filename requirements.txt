@@ -1,0 +1,40 @@
+# requirements.txt for Comparative Epigenomics Project
+# Add required packages as you develop the pipeline
+
+# Core scientific Python stack
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+jupyter
+notebook
+
+# Bioinformatics tools
+pybedtools
+pyBigWig
+biopython
+
+# Genomics and alignment
+pysam
+halpy
+
+# Motif analysis
+logomaker
+
+# Statistical analysis
+statsmodels
+
+# YAML config
+pyyaml
+
+# For reproducibility and workflow
+snakemake
+
+# Optional: for GO/pathway enrichment (if using rGREAT or similar)
+greatpy
+
+# Optional: for interactive plots
+plotly
+
+# Add any additional packages as needed for your scripts and notebooks

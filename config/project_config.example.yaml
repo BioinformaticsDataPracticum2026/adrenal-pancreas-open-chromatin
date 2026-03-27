@@ -1,0 +1,13 @@
+# Example project config for Phase 1 Task 1
+project_root: /ocean/projects/bio230007p/aguda1/adrenal-pancreas-open-chromatin
+data_root: /ocean/projects/bio230007p/ikaplow
+human_atac_dir: /ocean/projects/bio230007p/ikaplow/HumanAtac
+human_genome_info_dir: /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo
+results_dir: /ocean/projects/bio230007p/aguda1/adrenal-pancreas-open-chromatin/results
+logs_dir: /ocean/projects/bio230007p/aguda1/adrenal-pancreas-open-chromatin/results/logs
+
+# Placeholders for files to be filled in manually
+human_adrenal_alt_peak_file: TODO  # e.g. /ocean/projects/bio230007p/ikaplow/HumanAtac/ALT_ADRENAL_PEAKS.bed
+human_adrenal_alt_signal_file: TODO
+human_adrenal_alt_metadata_file: TODO
+human_gtf: TODO
