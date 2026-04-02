@@ -89,7 +89,7 @@ echo "Done: mouse-specific OCRs identified"
 
 #count number of regions in each category
 #wc -l counts number of lines (each line = one OCR)
-echo "Summary Time CHATTTTTTT"
+echo "Summary"
 echo "Conserved human in mouse: $(wc -l < $OUTDIR/conserved_human_in_mouse.bed)"
 echo "Human-specific: $(wc -l < $OUTDIR/human_specific.bed)"
 echo "Conserved mouse in human: $(wc -l < $OUTDIR/conserved_mouse_in_human.bed)"
