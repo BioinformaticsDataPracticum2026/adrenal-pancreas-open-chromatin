@@ -106,3 +106,55 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 ## Design Notes
 
 The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR IDs, genomic coordinates, optional nearest-gene annotations, and explicit mapping-status labels.
+
+
+## Task 5: Compare candidate enhancers and candidate promoters
+
+### Goal
+Distinguish candidate promoter-associated and candidate enhancer-associated open chromatin regions, and compare their distributions across species-specific and conserved peak sets.
+
+### Input peak sets
+- `mouse_specific.bed`
+- `human_specific.bed`
+- `conserved_human_in_mouse.bed`
+- `conserved_mouse_in_human.bed`
+
+### Reference annotations
+We used the instructor-provided TSS annotation resources:
+
+- Human TSS annotation:  
+  `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
+
+- Mouse TSS annotation:  
+  `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSsWithStrand_sorted.bed`
+
+### Method
+To distinguish candidate promoters and candidate enhancers, we used annotated transcription start sites as the reference.
+
+#### Promoter definition
+Promoter-associated peaks were defined as peaks overlapping a **±2 kb window** around annotated TSSs.
+
+#### Enhancer definition
+Peaks that did **not** overlap promoter windows were classified as candidate enhancers.
+
+#### Species-specific assignment
+- `mouse_specific.bed` and `conserved_human_in_mouse.bed` were compared against **mouse TSS/promoter annotations**
+- `human_specific.bed` and `conserved_mouse_in_human.bed` were compared against **human TSS/promoter annotations**
+
+### Main script
+- `scripts/step5_promoter_enhancer.R`
+
+### Output
+Task 5 results are stored in:
+
+- `results/task_5_enhancer_promoter/`
+
+This directory includes:
+- `step5_peak_assignment.csv`
+- `step5_count_summary.csv`
+- `step5_proportion_summary.csv`
+- `step5_promoter_enhancer_two_panel.png`
+- `step5_promoter_enhancer_two_panel.pdf`
+
+### Summary
+Using annotated TSS windows, we classified open chromatin peaks into candidate promoter-associated and candidate enhancer-associated regions. This allowed us to compare promoter-versus-enhancer composition across mouse-specific, human-specific, and conserved peak sets.
