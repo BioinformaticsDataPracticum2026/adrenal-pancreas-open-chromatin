@@ -107,6 +107,47 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 
 The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR IDs, genomic coordinates, optional nearest-gene annotations, and explicit mapping-status labels.
 
+## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
+
+### Goal
+Identify biological processes associated with both species-specific and conserved open chromatin regions using a region-centric enrichment framework.
+
+### Input peak sets
+- `mouse_specific.bed`
+- `human_specific.bed`
+- `conserved_human_in_mouse.bed`
+- `conserved_mouse_in_human.bed`
+
+### Method
+We performed GO Biological Process enrichment analysis using `rGREAT`, which is designed for genomic region-based input.
+
+#### Foreground sets
+- Mouse-specific open chromatin regions: `mouse_specific.bed`
+- Human-specific open chromatin regions: `human_specific.bed`
+- Conserved human peaks mapped in mouse coordinates: `conserved_human_in_mouse.bed`
+- Conserved mouse peaks mapped in human coordinates: `conserved_mouse_in_human.bed`
+
+#### Background strategy
+We used relevant peak sets rather than the whole genome as background, because the goal was to compare functional enrichment within experimentally observed regulatory regions rather than across all genomic bases.
+
+In practice, enrichment was evaluated within species-matched peak universes so that species-specific and conserved peak sets were compared against biologically relevant regulatory backgrounds.
+
+### Main script
+- `scripts/task4_GO.R`
+
+### Output
+Task 4 results are stored in:
+
+- `results/task_4_go_analysis/`
+
+This directory includes:
+- GO BP enrichment result tables for mouse-specific, human-specific, and conserved peak sets
+- significant-term summary tables
+- combined significant-term tables
+- dotplot visualizations for species-specific and conserved enrichment results
+
+### Summary
+The enrichment analysis showed distinct functional signatures across both species-specific and conserved open chromatin regions, suggesting biologically meaningful differences in their regulatory programs.
 
 ## Task 5: Compare candidate enhancers and candidate promoters
 
