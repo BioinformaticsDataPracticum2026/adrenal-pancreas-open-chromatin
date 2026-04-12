@@ -25,21 +25,20 @@ library(stringr)
 mouse_tss_source <- "mm10"
 human_tss_source <- "hg38"
 
-# 你要跑哪些 ontology
-# GO:BP 最常用；也可以换成 GO:CC / GO:MF
+# GO:BP
 ontology_to_run <- "GO:BP"
 
-# 输出目录
-outdir <- "/Users/gwen/Desktop/GO/rGREAT_results"
+# output directory
+outdir <- "/../../Desktop/GO/rGREAT_results"
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
 # -----------------------------
 # 2. Read BED files
 # -----------------------------
-mouse_specific <- import(file.path("/Users/gwen/Desktop/GO/mouse_specific.bed"))
-human_specific <- import(file.path("/Users/gwen/Desktop/GO/human_specific.bed"))
-conserved_mouse_in_human <- import(file.path("/Users/gwen/Desktop/GO/conserved_mouse_in_human.bed"))
-conserved_human_in_mouse <- import(file.path("/Users/gwen/Desktop/GO/conserved_human_in_mouse.bed"))
+mouse_specific <- import(file.path("/../../Desktop/GO/mouse_specific.bed"))
+human_specific <- import(file.path("/../../Desktop/GO/human_specific.bed"))
+conserved_mouse_in_human <- import(file.path("/../../Desktop/GO/conserved_mouse_in_human.bed"))
+conserved_human_in_mouse <- import(file.path("/../../Desktop/GO/conserved_human_in_mouse.bed"))
 
 # -----------------------------
 # 3. Clean helper
@@ -59,13 +58,6 @@ conserved_human_in_mouse <- clean_gr(conserved_human_in_mouse)
 # -----------------------------
 # 4. Build background regions
 # -----------------------------
-# 逻辑：
-# mouse 坐标系分析：mouse_specific + conserved_human_in_mouse
-# human 坐标系分析：human_specific + conserved_mouse_in_human
-#
-# 前提是：
-# conserved_human_in_mouse.bed 已经在 mouse 坐标系
-# conserved_mouse_in_human.bed 已经在 human 坐标系
 
 bg_mouse <- reduce(c(mouse_specific, conserved_human_in_mouse))
 bg_human <- reduce(c(human_specific, conserved_mouse_in_human))
@@ -90,15 +82,6 @@ cat("bg_human width:", sum(width(bg_human)), "\n\n")
 # -----------------------------
 # 6. Run rGREAT
 # -----------------------------
-# great() 是本地 GREAT 的核心函数
-# gene_sets 可直接用 "GO:BP"
-# tss_source 可直接用 "mm10"/"hg38" 等
-# background 可直接传 GRanges
-#
-# 官方文档说明：great() 支持内置 annotations，
-# tss_source 可直接写 genome version，
-# background 可显式设置为 genomic regions.
-# see rGREAT local GREAT docs.
 
 mouse_job <- great(
   gr = mouse_specific,
@@ -114,7 +97,7 @@ human_job <- great(
   background = bg_human
 )
 
-# conserved_human_in_mouse: 区域在 mouse 坐标系
+# conserved_human_in_mouse
 conserved_hm_job <- great(
   gr = conserved_human_in_mouse,
   gene_sets = ontology_to_run,
@@ -122,7 +105,7 @@ conserved_hm_job <- great(
   background = bg_mouse
 )
 
-# conserved_mouse_in_human: 区域在 human 坐标系
+# conserved_mouse_in_human
 conserved_mh_job <- great(
   gr = conserved_mouse_in_human,
   gene_sets = ontology_to_run,
@@ -138,7 +121,6 @@ human_tbl <- getEnrichmentTable(human_job)
 conserved_hm_tbl <- getEnrichmentTable(conserved_hm_job)
 conserved_mh_tbl <- getEnrichmentTable(conserved_mh_job)
 
-# 保存原始结果
 write.csv(mouse_tbl,
           file.path(outdir, "mouse_specific_rGREAT_GO_BP.csv"),
           row.names = FALSE)
@@ -161,23 +143,17 @@ cat("\n=== Human result columns ===\n")
 print(colnames(human_tbl))
 cat("\n")
 
-# 常见会有 p_value / p_adjust / fold_enrichment / name / id 等列
-# 为了稳一点，写个自动识别函数
-
 standardize_tbl <- function(tb, label) {
   tb2 <- tb
   
-  # 自动识别 term name 列
   term_col <- intersect(c("name", "term_name", "description"), colnames(tb2))
   if (length(term_col) == 0) stop("Cannot find term name column.")
   term_col <- term_col[1]
   
-  # 自动识别 adjusted p-value 列
   padj_col <- intersect(c("p_adjust", "adj_p_value", "fdr", "q_value"), colnames(tb2))
   if (length(padj_col) == 0) stop("Cannot find adjusted p-value column.")
   padj_col <- padj_col[1]
   
-  # 自动识别 enrichment 列
   enrich_col <- intersect(c("fold_enrichment", "fold_enrichment_binom", "enrichment"), colnames(tb2))
   if (length(enrich_col) == 0) {
     tb2$fold_enrichment_final <- NA_real_
@@ -272,7 +248,7 @@ make_dotplot <- function(sig_list, dataset_levels, filename, ncol = 2, width = 1
   ggsave(file.path(outdir, filename), p, width = width, height = height, dpi = 300, bg = "white")
 }
 
-# 图1：species-specific regions
+# fig1：species-specific regions
 make_dotplot(
   sig_list       = list(mouse_sig, human_sig),
   dataset_levels = c("mouse_specific", "human_specific"),
@@ -280,7 +256,7 @@ make_dotplot(
   ncol = 2, width = 13, height = 7
 )
 
-# 图2：conserved regions
+# fig2：conserved regions
 make_dotplot(
   sig_list       = list(conserved_hm_sig, conserved_mh_sig),
   dataset_levels = c("conserved_human_in_mouse", "conserved_mouse_in_human"),
@@ -288,7 +264,7 @@ make_dotplot(
   ncol = 2, width = 13, height = 7
 )
 
-# 保存合并的显著结果
+# save
 combined_sig <- bind_rows(mouse_sig, human_sig, conserved_hm_sig, conserved_mh_sig)
 write.csv(combined_sig,
           file.path(outdir, "combined_all4_sig_terms.csv"),
