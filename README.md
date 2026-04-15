@@ -107,16 +107,18 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 
 The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR IDs, genomic coordinates, optional nearest-gene annotations, and explicit mapping-status labels.
 
-## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
+## Task 4: GO biological process enrichment of species-specific open chromatin regions
 
 ### Goal
-Identify biological processes associated with both species-specific and conserved open chromatin regions using a region-centric enrichment framework.
+Identify biological processes associated with mouse-specific and human-specific open chromatin regions using a region-centric enrichment framework.
 
 ### Input peak sets
 - `mouse_specific.bed`
 - `human_specific.bed`
-- `conserved_human_in_mouse.bed`
-- `conserved_mouse_in_human.bed`
+
+### Background peak universes
+- `mouse_pancreas_ocr.processed.bed`
+- `human_pancreas_ocr.processed.bed`
 
 ### Method
 We performed GO Biological Process enrichment analysis using `rGREAT`, which is designed for genomic region-based input.
@@ -124,13 +126,18 @@ We performed GO Biological Process enrichment analysis using `rGREAT`, which is 
 #### Foreground sets
 - Mouse-specific open chromatin regions: `mouse_specific.bed`
 - Human-specific open chromatin regions: `human_specific.bed`
-- Conserved human peaks mapped in mouse coordinates: `conserved_human_in_mouse.bed`
-- Conserved mouse peaks mapped in human coordinates: `conserved_mouse_in_human.bed`
 
 #### Background strategy
-We used relevant peak sets rather than the whole genome as background, because the goal was to compare functional enrichment within experimentally observed regulatory regions rather than across all genomic bases.
+We used species-matched OCR peak universes rather than the whole genome as background, because the goal was to evaluate functional enrichment within experimentally observed regulatory regions rather than across all genomic bases.
 
-In practice, enrichment was evaluated within species-matched peak universes so that species-specific and conserved peak sets were compared against biologically relevant regulatory backgrounds.
+Specifically:
+- Mouse-specific regions were tested against `mouse_pancreas_ocr.processed.bed`
+- Human-specific regions were tested against `human_pancreas_ocr.processed.bed`
+
+This background design provides a more biologically appropriate comparison framework by restricting enrichment to accessible regulatory regions detected in each species.
+
+#### Note on conserved peak sets
+Although conserved peak files were generated during earlier cross-species comparisons, they were not included in the final GO enrichment analysis. This decision was made because the conserved peak projections showed inconsistent regulatory composition after promoter/enhancer stratification, suggesting that they were not reliable for downstream functional enrichment.
 
 ### Main script
 - `scripts/task4_GO.R`
@@ -141,13 +148,14 @@ Task 4 results are stored in:
 - `results/task_4_go_analysis/`
 
 This directory includes:
-- GO BP enrichment result tables for mouse-specific, human-specific, and conserved peak sets
+- GO BP enrichment result tables for `mouse_specific` and `human_specific`
 - significant-term summary tables
-- combined significant-term tables
-- dotplot visualizations for species-specific and conserved enrichment results
+- a combined significant-term table for species-specific peak sets
+- dotplot visualization comparing mouse-specific and human-specific enrichment results
 
 ### Summary
-The enrichment analysis showed distinct functional signatures across both species-specific and conserved open chromatin regions, suggesting biologically meaningful differences in their regulatory programs.
+The enrichment analysis identified biological processes associated with mouse-specific and human-specific open chromatin regions, highlighting distinct regulatory programs in the two species within pancreas OCR landscapes.
+
 
 ## Task 5: Compare candidate enhancers and candidate promoters
 
