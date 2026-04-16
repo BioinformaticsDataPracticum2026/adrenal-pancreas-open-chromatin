@@ -107,14 +107,15 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 
 The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR IDs, genomic coordinates, optional nearest-gene annotations, and explicit mapping-status labels.
 
-## Task 4: GO biological process enrichment of species-specific open chromatin regions
+## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
 
 ### Goal
-Identify biological processes associated with mouse-specific and human-specific open chromatin regions using a region-centric enrichment framework.
+Identify biological processes associated with species-specific and conserved open chromatin regions using a region-centric enrichment framework.
 
 ### Input peak sets
 - `mouse_specific.bed`
 - `human_specific.bed`
+- `conserved_human_in_mouse.bed`
 
 ### Background peak universes
 - `mouse_pancreas_ocr.processed.bed`
@@ -126,6 +127,7 @@ We performed GO Biological Process enrichment analysis using `rGREAT`, which is 
 #### Foreground sets
 - Mouse-specific open chromatin regions: `mouse_specific.bed`
 - Human-specific open chromatin regions: `human_specific.bed`
+- Conserved human peaks mapped in mouse coordinates: `conserved_human_in_mouse.bed`
 
 #### Background strategy
 We used species-matched OCR peak universes rather than the whole genome as background, because the goal was to evaluate functional enrichment within experimentally observed regulatory regions rather than across all genomic bases.
@@ -133,11 +135,12 @@ We used species-matched OCR peak universes rather than the whole genome as backg
 Specifically:
 - Mouse-specific regions were tested against `mouse_pancreas_ocr.processed.bed`
 - Human-specific regions were tested against `human_pancreas_ocr.processed.bed`
+- Conserved human peaks mapped in mouse coordinates were tested against `mouse_pancreas_ocr.processed.bed`
 
-This background design provides a more biologically appropriate comparison framework by restricting enrichment to accessible regulatory regions detected in each species.
+This background design provides a biologically relevant comparison framework by restricting enrichment to accessible regulatory regions detected in each species.
 
 #### Note on conserved peak sets
-Although conserved peak files were generated during earlier cross-species comparisons, they were not included in the final GO enrichment analysis. This decision was made because the conserved peak projections showed inconsistent regulatory composition after promoter/enhancer stratification, suggesting that they were not reliable for downstream functional enrichment.
+Although two conserved peak projections were initially generated, only `conserved_human_in_mouse.bed` was retained for the final GO enrichment analysis. The reciprocal projection, `conserved_mouse_in_human.bed`, showed inconsistent promoter/enhancer composition after annotation and was therefore excluded from downstream enrichment to avoid introducing potentially unreliable functional signals.
 
 ### Main script
 - `scripts/task4_GO.R`
@@ -148,13 +151,13 @@ Task 4 results are stored in:
 - `results/task_4_go_analysis/`
 
 This directory includes:
-- GO BP enrichment result tables for `mouse_specific` and `human_specific`
-- significant-term summary tables
-- a combined significant-term table for species-specific peak sets
-- dotplot visualization comparing mouse-specific and human-specific enrichment results
+- GO BP enrichment result tables for `mouse_specific`, `human_specific`, and `conserved_human_in_mouse`
+- significant-term summary tables for each foreground set
+- a combined significant-term table across all three analyzed peak sets
+- a dotplot visualization comparing enrichment results across the three groups
 
 ### Summary
-The enrichment analysis identified biological processes associated with mouse-specific and human-specific open chromatin regions, highlighting distinct regulatory programs in the two species within pancreas OCR landscapes.
+The enrichment analysis identified biological processes associated with mouse-specific, human-specific, and conserved open chromatin regions. Using species-matched OCR universes as background allowed enrichment to be interpreted within biologically observed regulatory landscapes rather than against the whole genome.
 
 
 ## Task 5: Compare candidate enhancers and candidate promoters
