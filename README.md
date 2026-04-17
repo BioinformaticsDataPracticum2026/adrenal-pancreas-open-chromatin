@@ -157,11 +157,6 @@ This reciprocal conserved projection showed inconsistent promoter/enhancer compo
 
 ## Background strategy
 
-### Why we did not use the whole genome
-We did **not** use the entire genome as background because the question here is not whether OCRs are enriched relative to all genomic bases. Instead, the goal is to compare functional enrichment **within experimentally observed regulatory regions**.
-
-Using the whole genome as background would include large numbers of genomic regions that were never observed as open chromatin and therefore would not provide a biologically appropriate comparison universe.
-
 ### Background used for each foreground set
 We used species-matched OCR universes as background:
 
@@ -190,27 +185,6 @@ This analysis was designed to run in R 4.x.
 - `ggplot2`
 - `dplyr`
 - `stringr`
-
-### Install packages manually
-If needed, install packages with:
-
-```r
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-
-BiocManager::install(c(
-  "rGREAT",
-  "rtracklayer",
-  "GenomicRanges",
-  "GenomeInfoDb"
-))
-
-install.packages(c(
-  "ggplot2",
-  "dplyr",
-  "stringr"
-))
 
 ## Task 5: Compare candidate enhancers and candidate promoters
 
