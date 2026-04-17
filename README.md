@@ -109,56 +109,108 @@ The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR I
 
 ## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
 
-### Goal
-Identify biological processes associated with species-specific and conserved open chromatin regions using a region-centric enrichment framework.
+### Overview
+This task performs GO Biological Process enrichment analysis on species-specific and conserved open chromatin regions using `rGREAT`, a region-based enrichment framework designed for genomic intervals rather than pre-defined gene lists.
 
-### Input peak sets
-- `mouse_specific.bed`
-- `human_specific.bed`
-- `conserved_human_in_mouse.bed`
+The goal is to identify biological processes associated with:
+- mouse-specific OCRs
+- human-specific OCRs
+- conserved human OCRs mapped into mouse coordinates
+
+### Analysis objective
+We aimed to test whether different classes of open chromatin regions are preferentially associated with genes involved in specific biological processes.
+
+Because these inputs are genomic regions rather than genes, we used `rGREAT`, which links regulatory regions to nearby or regulatory-domain-associated genes and evaluates GO enrichment in a region-centric manner.
+
+---
+
+## Input files
+
+### Foreground peak sets
+The foreground BED files are located in:
+
+- `results/mapping/mouse_specific.bed`
+- `results/mapping/human_specific.bed`
+- `results/mapping/conserved_human_in_mouse.bed`
+
+These represent:
+- `mouse_specific.bed`: mouse-specific open chromatin regions
+- `human_specific.bed`: human-specific open chromatin regions
+- `conserved_human_in_mouse.bed`: conserved human open chromatin regions projected into mouse coordinates
 
 ### Background peak universes
-- `mouse_pancreas_ocr.processed.bed`
-- `human_pancreas_ocr.processed.bed`
+The background OCR universes are located in:
 
-### Method
-We performed GO Biological Process enrichment analysis using `rGREAT`, which is designed for genomic region-based input.
+- `results/mapping/mouse_pancreas_ocr.processed.bed`
+- `results/mapping/human_pancreas_ocr.processed.bed`
 
-#### Foreground sets
-- Mouse-specific open chromatin regions: `mouse_specific.bed`
-- Human-specific open chromatin regions: `human_specific.bed`
-- Conserved human peaks mapped in mouse coordinates: `conserved_human_in_mouse.bed`
+These files represent the total experimentally observed OCR peak universes for each species and are used as species-matched backgrounds in `rGREAT`.
 
-#### Background strategy
-We used species-matched OCR peak universes rather than the whole genome as background, because the goal was to evaluate functional enrichment within experimentally observed regulatory regions rather than across all genomic bases.
+### Excluded file
+The following file was not used in the final GO enrichment analysis:
 
-Specifically:
-- Mouse-specific regions were tested against `mouse_pancreas_ocr.processed.bed`
-- Human-specific regions were tested against `human_pancreas_ocr.processed.bed`
-- Conserved human peaks mapped in mouse coordinates were tested against `mouse_pancreas_ocr.processed.bed`
+- `results/mapping/conserved_mouse_in_human.bed`
 
-This background design provides a biologically relevant comparison framework by restricting enrichment to accessible regulatory regions detected in each species.
+This reciprocal conserved projection showed inconsistent promoter/enhancer composition after annotation and was therefore excluded from downstream GO enrichment to avoid introducing potentially unreliable signals.
 
-#### Note on conserved peak sets
-Although two conserved peak projections were initially generated, only `conserved_human_in_mouse.bed` was retained for the final GO enrichment analysis. The reciprocal projection, `conserved_mouse_in_human.bed`, showed inconsistent promoter/enhancer composition after annotation and was therefore excluded from downstream enrichment to avoid introducing potentially unreliable functional signals.
+---
 
-### Main script
-- `scripts/task4_GO.R`
+## Background strategy
 
-### Output
-Task 4 results are stored in:
+### Why we did not use the whole genome
+We did **not** use the entire genome as background because the question here is not whether OCRs are enriched relative to all genomic bases. Instead, the goal is to compare functional enrichment **within experimentally observed regulatory regions**.
 
-- `results/task_4_go_analysis/`
+Using the whole genome as background would include large numbers of genomic regions that were never observed as open chromatin and therefore would not provide a biologically appropriate comparison universe.
 
-This directory includes:
-- GO BP enrichment result tables for `mouse_specific`, `human_specific`, and `conserved_human_in_mouse`
-- significant-term summary tables for each foreground set
-- a combined significant-term table across all three analyzed peak sets
-- a dotplot visualization comparing enrichment results across the three groups
+### Background used for each foreground set
+We used species-matched OCR universes as background:
 
-### Summary
-The enrichment analysis identified biological processes associated with mouse-specific, human-specific, and conserved open chromatin regions. Using species-matched OCR universes as background allowed enrichment to be interpreted within biologically observed regulatory landscapes rather than against the whole genome.
+- `mouse_specific.bed` was tested against `results/mapping/mouse_pancreas_ocr.processed.bed`
+- `human_specific.bed` was tested against `results/mapping/human_pancreas_ocr.processed.bed`
+- `conserved_human_in_mouse.bed` was tested against `results/mapping/mouse_pancreas_ocr.processed.bed`
 
+This design ensures that enrichment is evaluated relative to accessible regulatory regions detected in the corresponding species background.
+
+---
+
+## Software requirements
+
+### R version
+This analysis was designed to run in R 4.x.
+
+### Required R packages
+
+#### Bioconductor packages
+- `rGREAT`
+- `rtracklayer`
+- `GenomicRanges`
+- `GenomeInfoDb`
+
+#### CRAN packages
+- `ggplot2`
+- `dplyr`
+- `stringr`
+
+### Install packages manually
+If needed, install packages with:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+BiocManager::install(c(
+  "rGREAT",
+  "rtracklayer",
+  "GenomicRanges",
+  "GenomeInfoDb"
+))
+
+install.packages(c(
+  "ggplot2",
+  "dplyr",
+  "stringr"
+))
 
 ## Task 5: Compare candidate enhancers and candidate promoters
 
