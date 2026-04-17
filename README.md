@@ -171,7 +171,7 @@ This design ensures that enrichment is evaluated relative to accessible regulato
 ## Software requirements
 
 ### R version
-This analysis was designed to run in R 4.x.
+This analysis was designed to run in R 4.5.1
 
 ### Required R packages
 
