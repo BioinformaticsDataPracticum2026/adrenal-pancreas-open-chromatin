@@ -186,53 +186,81 @@ This analysis was designed to run in R 4.5.1
 - `dplyr`
 - `stringr`
 
-## Task 5: Compare candidate enhancers and candidate promoters
+## Task 5: Promoter- and Enhancer-Associated OCR Classification
 
-### Goal
-Distinguish candidate promoter-associated and candidate enhancer-associated open chromatin regions, and compare their distributions across species-specific and conserved peak sets.
+### Objective
+To compare regulatory composition across species-specific and conserved open chromatin regions by classifying peaks into promoter-associated versus enhancer-associated categories.
 
-### Input peak sets
-- `mouse_specific.bed`
-- `human_specific.bed`
-- `conserved_human_in_mouse.bed`
-- `conserved_mouse_in_human.bed`
+### Input Peak Sets
+- `results/mapping/mouse_specific.bed`
+- `results/mapping/human_specific.bed`
+- `results/mapping/conserved_human_in_mouse.bed`
 
-### Reference annotations
-We used the instructor-provided TSS annotation resources:
+### Excluded Set
+- `results/mapping/conserved_mouse_in_human.bed` was excluded from final analysis due to inconsistent promoter/enhancer composition in prior QC.
 
-- Human TSS annotation:  
-  `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
+### Reference TSS Annotations
+- Human: `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
+- Mouse: `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed`
 
-- Mouse TSS annotation:  
-  `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSsWithStrand_sorted.bed`
+---
 
-### Method
-To distinguish candidate promoters and candidate enhancers, we used annotated transcription start sites as the reference.
+## Computational Method
 
-#### Promoter definition
-Promoter-associated peaks were defined as peaks overlapping a **±2 kb window** around annotated TSSs.
+### Core Genomic Framework
+This analysis was implemented using the **Bioconductor GenomicRanges framework**.
 
-#### Enhancer definition
-Peaks that did **not** overlap promoter windows were classified as candidate enhancers.
+- Peaks were imported as genomic intervals and represented as `GRanges` objects.
+- TSS annotations were converted to stranded `GRanges`.
+- Interval operations used GenomicRanges methods, including:
+  - `keepStandardChromosomes()`
+  - `sort()`
+  - `promoters()`
+  - `trim()`
+  - `reduce()`
+  - `overlapsAny()`
 
-#### Species-specific assignment
-- `mouse_specific.bed` and `conserved_human_in_mouse.bed` were compared against **mouse TSS/promoter annotations**
-- `human_specific.bed` and `conserved_mouse_in_human.bed` were compared against **human TSS/promoter annotations**
+### Promoter and Enhancer Definition
+- **Promoter-associated peaks**: peaks overlapping TSS ± 2 kb windows.
+- **Candidate enhancer-associated peaks**: peaks not overlapping promoter windows.
 
-### Main script
-- `scripts/step5_promoter_enhancer.R`
+This is an operational distance-based definition; enhancer labels here indicate non-promoter/distal OCRs rather than histone-mark-validated enhancer states.
 
-### Output
-Task 5 results are stored in:
+### Species-Matched Assignment
+- `mouse_specific.bed` and `conserved_human_in_mouse.bed` were annotated against mouse promoter windows.
+- `human_specific.bed` was annotated against human promoter windows.
 
-- `results/task_5_enhancer_promoter/`
+---
 
-This directory includes:
-- `step5_peak_assignment.csv`
-- `step5_count_summary.csv`
-- `step5_proportion_summary.csv`
-- `step5_promoter_enhancer_two_panel.png`
-- `step5_promoter_enhancer_two_panel.pdf`
+## Software
+R packages used:
+- `rtracklayer`
+- `GenomicRanges`
+- `GenomeInfoDb`
+- `dplyr`
+- `ggplot2`
+- `scales`
+- `patchwork`
+- `tidyr`
 
-### Summary
-Using annotated TSS windows, we classified open chromatin peaks into candidate promoter-associated and candidate enhancer-associated regions. This allowed us to compare promoter-versus-enhancer composition across mouse-specific, human-specific, and conserved peak sets.
+---
+
+## Main Script
+- `scripts/task5_promoter_enhancer.R`
+
+## Run Command (Bridges2)
+```bash
+cd /jet/home/wzhang37/step5_enhancer_promoter
+module load r
+Rscript task5_promoter_enhancer.R
+
+## Outputs
+- results/task_5_enhancer_promoter/step5_peak_assignment.csv
+- results/task_5_enhancer_promoter/step5_count_summary.csv
+- results/task_5_enhancer_promoter/step5_proportion_summary.csv
+- results/task_5_enhancer_promoter/proportion_count_panel.png
+- results/task_5_enhancer_promoter/enhancer_promoter_ratio.png
+- results/task_5_enhancer_promoter/all_three_panel.png
+
+## Summary
+Using a GenomicRanges-based overlap framework, OCRs were classified into promoter-associated and candidate enhancer-associated groups via TSS-proximity rules. This enabled consistent comparison of promoter/distal composition across mouse-specific, human-specific, and conserved-human-in-mouse peak sets.
