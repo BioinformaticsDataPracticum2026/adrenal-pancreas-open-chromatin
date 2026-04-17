@@ -40,8 +40,8 @@ mouse_tss_source <- "mm10"
 human_tss_source <- "hg38"
 ontology_to_run  <- "GO:BP"
 
-input_dir <- "/Users/gwen/Desktop/03713/task4_GO"
-outdir    <- "/Users/gwen/Desktop/03713/task4_GO"
+input_dir <- "/.../..."
+outdir    <- "/.../..."
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
 # -----------------------------
