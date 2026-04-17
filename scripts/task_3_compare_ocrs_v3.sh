@@ -1,6 +1,6 @@
 #!/bin/bash
 #step 3: Cross-species comparison of OCRs (human vs mouse)
-#author: mrun :)
+#author: mrun
 #date: march 30, 2026
 
 #load required module
@@ -85,7 +85,7 @@ bedtools intersect \
   -v > $OUTDIR/mouse_specific.bed
 echo "Done: mouse-specific OCRs identified"
 
-#SUMMARY STATSSSSS
+#SUMMARY STATS
 
 #count number of regions in each category
 #wc -l counts number of lines (each line = one OCR)
