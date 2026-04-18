@@ -107,6 +107,8 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 
 The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR IDs, genomic coordinates, optional nearest-gene annotations, and explicit mapping-status labels.
 
+---
+
 ## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
 
 ### Overview
@@ -122,7 +124,6 @@ We aimed to test whether different classes of open chromatin regions are prefere
 
 Because these inputs are genomic regions rather than genes, we used `rGREAT`, which links regulatory regions to nearby or regulatory-domain-associated genes and evaluates GO enrichment in a region-centric manner.
 
----
 
 ## Input files
 
@@ -153,7 +154,6 @@ The following file was not used in the final GO enrichment analysis:
 
 This reciprocal conserved projection showed inconsistent promoter/enhancer composition after annotation and was therefore excluded from downstream GO enrichment to avoid introducing potentially unreliable signals.
 
----
 
 ## Background strategy
 
@@ -165,8 +165,6 @@ We used species-matched OCR universes as background:
 - `conserved_human_in_mouse.bed` was tested against `results/mapping/mouse_pancreas_ocr.processed.bed`
 
 This design ensures that enrichment is evaluated relative to accessible regulatory regions detected in the corresponding species background.
-
----
 
 ## Software requirements
 
@@ -186,6 +184,30 @@ This analysis was designed to run in R 4.5.1
 - `dplyr`
 - `stringr`
 
+## Outputs
+Task 4 results are stored in:
+
+- `results/task_4_go_analysis/`
+
+This directory currently contains:
+
+- `README.md`
+- `combined_mouse_human_conserved_sig_terms.csv`
+- `mouse_specific_rGREAT_GO_BP.csv`
+- `mouse_specific_rGREAT_GO_BP_sig.csv`
+- `human_specific_rGREAT_GO_BP.csv`
+- `human_specific_rGREAT_GO_BP_sig.csv`
+- `conserved_human_in_mouse_rGREAT_GO_BP.csv`
+- `conserved_human_in_mouse_rGREAT_GO_BP_sig.csv`
+- `mouse_specific_top10_dotplot.png`
+- `human_specific_top10_dotplot.png`
+- `conserved_human_in_mouse_top10_dotplot.png`
+- `mouse_specific_top10_for_plot.csv`
+- `human_specific_top10_for_plot.csv`
+- `conserved_human_in_mouse_top10_for_plot.csv`
+
+---
+
 ## Task 5: Promoter- and Enhancer-Associated OCR Classification
 
 ### Objective
@@ -202,8 +224,6 @@ To compare regulatory composition across species-specific and conserved open chr
 ### Reference TSS Annotations
 - Human: `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
 - Mouse: `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed`
-
----
 
 ## Computational Method
 
@@ -224,14 +244,6 @@ This analysis was implemented using the **Bioconductor GenomicRanges framework**
 - **Promoter-associated peaks**: peaks overlapping TSS ± 2 kb windows.
 - **Candidate enhancer-associated peaks**: peaks not overlapping promoter windows.
 
-This is an operational distance-based definition; enhancer labels here indicate non-promoter/distal OCRs rather than histone-mark-validated enhancer states.
-
-### Species-Matched Assignment
-- `mouse_specific.bed` and `conserved_human_in_mouse.bed` were annotated against mouse promoter windows.
-- `human_specific.bed` was annotated against human promoter windows.
-
----
-
 ## Software
 R packages used:
 - `rtracklayer`
@@ -243,17 +255,15 @@ R packages used:
 - `patchwork`
 - `tidyr`
 
----
-
 ## Main Script
-- `scripts/task5_promoter_enhancer.R`
+- `scripts/step5_promoter_enhancer.R`
 
 ## Run Command (Bridges2)
 ```bash
-cd /jet/home/wzhang37/step5_enhancer_promoter
+cd /jet/home/username/filename/
 module load r
-Rscript task5_promoter_enhancer.R
-
+Rscript step5_promoter_enhancer.R
+```
 ## Outputs
 
 - `results/task_5_enhancer_promoter/step5_peak_assignment.csv`
@@ -262,7 +272,3 @@ Rscript task5_promoter_enhancer.R
 - `results/task_5_enhancer_promoter/proportion_count_panel.png`
 - `results/task_5_enhancer_promoter/enhancer_promoter_ratio.png`
 - `results/task_5_enhancer_promoter/all_three_panel.png`
-
-## Summary
-
-Using a GenomicRanges-based overlap framework, OCRs were classified into promoter-associated and candidate enhancer-associated groups via TSS-proximity rules. This enabled consistent comparison of promoter/distal composition across mouse-specific, human-specific, and conserved-human-in-mouse peak sets.
