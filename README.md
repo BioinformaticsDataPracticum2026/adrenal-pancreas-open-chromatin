@@ -122,8 +122,6 @@ The goal is to identify biological processes associated with:
 ### Analysis objective
 We aimed to test whether different classes of open chromatin regions are preferentially associated with genes involved in specific biological processes.
 
-Because these inputs are genomic regions rather than genes, we used `rGREAT`, which links regulatory regions to nearby or regulatory-domain-associated genes and evaluates GO enrichment in a region-centric manner.
-
 
 ## Input files
 
