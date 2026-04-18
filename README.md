@@ -255,12 +255,14 @@ module load r
 Rscript task5_promoter_enhancer.R
 
 ## Outputs
-- results/task_5_enhancer_promoter/step5_peak_assignment.csv
-- results/task_5_enhancer_promoter/step5_count_summary.csv
-- results/task_5_enhancer_promoter/step5_proportion_summary.csv
-- results/task_5_enhancer_promoter/proportion_count_panel.png
-- results/task_5_enhancer_promoter/enhancer_promoter_ratio.png
-- results/task_5_enhancer_promoter/all_three_panel.png
+
+- `results/task_5_enhancer_promoter/step5_peak_assignment.csv`
+- `results/task_5_enhancer_promoter/step5_count_summary.csv`
+- `results/task_5_enhancer_promoter/step5_proportion_summary.csv`
+- `results/task_5_enhancer_promoter/proportion_count_panel.png`
+- `results/task_5_enhancer_promoter/enhancer_promoter_ratio.png`
+- `results/task_5_enhancer_promoter/all_three_panel.png`
 
 ## Summary
+
 Using a GenomicRanges-based overlap framework, OCRs were classified into promoter-associated and candidate enhancer-associated groups via TSS-proximity rules. This enabled consistent comparison of promoter/distal composition across mouse-specific, human-specific, and conserved-human-in-mouse peak sets.
