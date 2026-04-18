@@ -182,6 +182,46 @@ This analysis was designed to run in R 4.5.1
 - `dplyr`
 - `stringr`
 
+## Main Script
+- `scripts/task4_GO.R`
+
+## How to run
+
+### 1. Install software
+Install the following before running Task 4:
+
+- R (recommended: R 4.3+)
+- RStudio Desktop
+
+Official download links:
+- R: https://cran.r-project.org/
+- RStudio: https://posit.co/download/rstudio-desktop/
+
+### 2. Clone repository
+Clone the project (or download ZIP), then open it in RStudio.
+
+```bash
+git clone <repo-url>
+cd adrenal-pancreas-open-chromatin
+```
+### 3. Prepare input files
+Make sure these files exist in `results/mapping/`.
+
+#### Required files
+- `mouse_specific.bed`
+- `human_specific.bed`
+- `conserved_human_in_mouse.bed`
+- `mouse_pancreas_ocr.processed.bed`
+- `human_pancreas_ocr.processed.bed`
+
+### 4. Run Task 4
+
+In the RStudio Console:
+
+```r
+source("scripts/task4_GO.R")
+```
+
 ## Outputs
 Task 4 results are stored in:
 
@@ -256,7 +296,9 @@ R packages used:
 ## Main Script
 - `scripts/step5_promoter_enhancer.R`
 
-## Run Command (Bridges2)
+## How to run
+Run Command (Bridges2)
+
 ```bash
 cd /jet/home/username/filename/
 module load r
