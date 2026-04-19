@@ -1,3 +1,6 @@
+import argparse
+from pathlib import Path
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -21,14 +24,40 @@ def get_top_motifs_txt(txt_file, category):
     top5['Abs_Log_P'] = abs(top5['Log_P_value'])
     return top5
 
-# Your exact base path
-base_path = r"C:\Users\joewa\files\cmu\bioinfodata"
+def parse_args():
+    parser = argparse.ArgumentParser(description="Plot top HOMER motifs for promoter/enhancer groups.")
+    parser.add_argument(
+        "--base-path",
+        default="results/task6",
+        help="Directory containing HOMER result folders.",
+    )
+    parser.add_argument(
+        "--output",
+        default="results/task6/motif_top5_panel.png",
+        help="Output figure path.",
+    )
+    return parser.parse_args()
+
+
+args = parse_args()
+base_path = Path(args.base_path)
+
+required = [
+    base_path / "homer_human_promoters" / "knownResults.txt",
+    base_path / "homer_human_enhancers" / "knownResults.txt",
+    base_path / "homer_mouse_promoters" / "knownResults.txt",
+    base_path / "homer_mouse_enhancers" / "knownResults.txt",
+]
+
+missing = [str(p) for p in required if not p.exists()]
+if missing:
+    raise FileNotFoundError("Missing HOMER knownResults.txt files:\n" + "\n".join(missing))
 
 # Parse all 4 TXT files
-human_pro = get_top_motifs_txt(f"{base_path}\\homer_human_promoters\\knownResults.txt", 'Human Promoters')
-human_enh = get_top_motifs_txt(f"{base_path}\\homer_human_enhancers\\knownResults.txt", 'Human Enhancers')
-mouse_pro = get_top_motifs_txt(f"{base_path}\\homer_mouse_promoters\\knownResults.txt", 'Mouse Promoters')
-mouse_enh = get_top_motifs_txt(f"{base_path}\\homer_mouse_enhancers\\knownResults.txt", 'Mouse Enhancers')
+human_pro = get_top_motifs_txt(base_path / "homer_human_promoters" / "knownResults.txt", 'Human Promoters')
+human_enh = get_top_motifs_txt(base_path / "homer_human_enhancers" / "knownResults.txt", 'Human Enhancers')
+mouse_pro = get_top_motifs_txt(base_path / "homer_mouse_promoters" / "knownResults.txt", 'Mouse Promoters')
+mouse_enh = get_top_motifs_txt(base_path / "homer_mouse_enhancers" / "knownResults.txt", 'Mouse Enhancers')
 
 # Combine into one dataset
 all_data = pd.concat([human_pro, human_enh, mouse_pro, mouse_enh])
@@ -40,4 +69,8 @@ g.set_titles(col_template="{col_name}", size=14, fontweight='bold')
 g.set_axis_labels("Absolute Log P-value", "Transcription Factor")
 plt.suptitle("Top Enriched Motifs: Promoters vs. Enhancers", y=1.05, fontsize=16, fontweight='bold')
 plt.tight_layout()
+output_path = Path(args.output)
+output_path.parent.mkdir(parents=True, exist_ok=True)
+plt.savefig(output_path, dpi=300, bbox_inches="tight")
+print(f"Saved motif summary plot to {output_path}")
 plt.show()

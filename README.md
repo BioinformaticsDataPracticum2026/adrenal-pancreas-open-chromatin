@@ -326,43 +326,152 @@ This step identifies the regulatory "language" driving the conserved adrenal and
 * **HOMER** (`findMotifsGenome.pl` for *de novo* and known motif discovery)
 * **Python 3** with `pandas`, `matplotlib`, and `seaborn` (for visualization)
 
-### Input Files
-* `results/task6_motifs/human_ortho_unique.bed` (Conserved human peaks from Step 3)
-* `results/task6_motifs/mouse_ortho_unique.bed` (Conserved mouse peaks from Step 3)
-* **Human TSS Reference:** `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
-* **Mouse TSS Reference:** `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed`
+# Adrenal-Pancreas Open Chromatin Comparative Project
 
+Comparative epigenomics workflow for identifying conserved and species-specific open chromatin regions (OCRs) between human and mouse pancreas, then connecting those regions to biological processes, regulatory classes, and candidate transcription factors.
 
-### Execution Pipeline
+## Project Scope
 
-**0. Preparing Orthologous BED Files**
-Before running spatial partitioning, the raw orthologous pair data must be converted into species-specific BED files using the provided Python script:
+This repository currently contains:
+
+1. Task 2: Cross-species OCR mapping (HAL liftover + reciprocal best-hit pairing)
+2. Task 3: Conserved and species-specific OCR partitioning from Task 2 outputs
+3. Task 4: GO biological process enrichment using rGREAT
+4. Task 5: Promoter vs enhancer classification (TSS +/- 2 kb rule)
+5. Task 6: Motif discovery support scripts and HOMER result parsing
+
+Phase 1 QC deliverables are stored in `results/qc/` and relevant docs under `docs/`.
+
+## Repository Organization
+
+```text
+.
+├── config/                      # Runtime configuration files
+├── docs/                        # Methods, progress reports, project notes
+├── scripts/                     # Executable scripts for Tasks 2-6
+├── src/cross_species_ocr/       # Python package for Task 2 mapping pipeline
+├── tests/                       # Unit tests
+├── results/                     # Analysis outputs (tables, figures, mapping, GO, etc.)
+├── data/                        # Local copy/cache area (ignored by git)
+├── README.md
+├── requirements.txt
+└── .gitignore
+```
+
+## Environment and Dependencies
+
+### Python
+
 ```bash
-python scripts/task6_pre.py
-**1. Partitioning Peaks into Promoters and Enhancers**
-Using `bedtools window`, peaks within 2 kb of a TSS are classified as promoters (`-u`), while distal peaks are classified as enhancers (`-v`).
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-*Example (Human Data):*
+### External tools
+
+1. `halLiftover` for Task 2 mapping
+2. `bedtools` for Task 3 processing and intersections
+3. `R` + Bioconductor packages (`rGREAT`, `GenomicRanges`, `rtracklayer`, `GenomeInfoDb`) for Tasks 4-5
+4. `HOMER` for Task 6 motif analysis
+
+## Quick Start
+
+### Task 2: Cross-species mapping
+
+1. Review `config/task2_pancreas_mapping.yaml`
+2. Discover inputs:
+
 ```bash
-# Extract Human Promoters
-bedtools window -w 2000 -a results/task6_motifs/human_ortho_unique.bed -b /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed -u > results/task6_motifs/human_promoters.bed
+PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py discover --config config/task2_pancreas_mapping.yaml
+```
 
-# Extract Human Enhancers
-bedtools window -w 2000 -a results/task6_motifs/human_ortho_unique.bed -b /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed -v > results/task6_motifs/human_enhancers.bed
+3. Run full mapping:
 
+```bash
+PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config/task2_pancreas_mapping.yaml
+```
 
+### Task 3: Conserved/species-specific OCRs
 
-# Human Promoters
-findMotifsGenome.pl results/task6_motifs/human_promoters.bed /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa results/task6_motifs/homer_human_promoters/ -size given -preparsedDir results/task6_motifs/preparsed_human/
+```bash
+bash scripts/task_3_compare_ocrs_v3.sh
+```
 
-# Human Enhancers
-findMotifsGenome.pl results/task6_motifs/human_enhancers.bed /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa results/task6_motifs/homer_human_enhancers/ -size given -preparsedDir results/task6_motifs/preparsed_human/
+### Task 4: GO enrichment (rGREAT)
 
-# Mouse Promoters
-findMotifsGenome.pl results/task6_motifs/mouse_promoters.bed /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa results/task6_motifs/homer_mouse_promoters/ -size given -preparsedDir results/task6_motifs/preparsed_mouse/
+```bash
+Rscript scripts/task4_GO.R
+```
 
-# Mouse Enhancers
-findMotifsGenome.pl results/task6_motifs/mouse_enhancers.bed /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa results/task6_motifs/homer_mouse_enhancers/ -size given -preparsedDir results/task6_motifs/preparsed_mouse/
+### Task 5: Promoter/enhancer classification
 
-**2. Analize the results**
-run task6_analize.py
+```bash
+Rscript scripts/step5_promoter_enhancer.R
+```
+
+### Task 6: Motif analysis support
+
+```bash
+python3 scripts/task6_pre.py
+python3 scripts/task6_analize.py
+```
+
+## Key Outputs
+
+### Task 2 mapping outputs
+
+1. `results/mapping/orthologous_ocr_pairs.tsv`
+2. `results/mapping/human_non_orthologous_ocr.tsv`
+3. `results/mapping/mouse_non_orthologous_ocr.tsv`
+4. `results/tables/task2_mapping_summary.tsv`
+5. `results/figures/task2_mapping_counts.png`
+6. `results/figures/task2_mapping_rates.png`
+
+### Task 3 outputs
+
+1. `results/mapping/conserved_human_in_mouse.bed`
+2. `results/mapping/conserved_mouse_in_human.bed`
+3. `results/mapping/human_specific.bed`
+4. `results/mapping/mouse_specific.bed`
+
+### Task 4 outputs
+
+Stored under `results/task_4_go_analysis/`.
+
+### Task 5 outputs
+
+Stored under `results/task_5_enhancer_promoter/`.
+
+### Task 6 outputs
+
+Stored under `results/task6/`.
+
+## Documentation
+
+1. `docs/task2_cross_species_mapping.md`
+2. `docs/task2_progress_report.md`
+3. `docs/methods.md`
+4. `docs/repo_conventions.md`
+
+## Reproducibility Notes
+
+1. Use config-driven paths for Task 2 via `config/task2_pancreas_mapping.yaml`.
+2. Keep large raw/intermediate data out of version control.
+3. Prefer writing derived outputs to `results/` with stable filenames.
+4. Record software versions (HAL, bedtools, R packages, HOMER) in method reports.
+
+## Known Limitations
+
+1. Some Task 4/5/6 scripts currently include user-specific absolute paths and may need path edits before rerun on another account.
+2. Task 2 ortholog calling is conservative (reciprocal best-hit strategy).
+3. Temporary liftover artifacts can be large; keep `results/mapping/tmp/` out of commits.
+
+## Team Usage
+
+For collaborators cloning this repository:
+
+1. Clone and create an environment.
+2. Copy/edit config files as needed.
+3. Run each task script in order (Task 2 -> Task 3 -> Task 4/5 -> Task 6).
+4. Keep method changes documented in `docs/` and submit figures/tables from `results/`.

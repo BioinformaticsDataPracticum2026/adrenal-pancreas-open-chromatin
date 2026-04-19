@@ -1,5 +1,3 @@
-.libPaths(c("~/R/x86_64-redhat-linux-gnu-library/4.4", .libPaths()))
-
 library(rtracklayer)
 library(GenomicRanges)
 library(GenomeInfoDb)
@@ -9,17 +7,36 @@ library(scales)
 library(patchwork)
 library(tidyr)
 
-workdir <- "/jet/home/wzhang37/step5_enhancer_promoter"
+project_root <- Sys.getenv("PROJECT_ROOT", unset = getwd())
+input_dir <- Sys.getenv("TASK5_INPUT_DIR", unset = file.path(project_root, "results", "mapping"))
+outdir <- Sys.getenv("TASK5_OUTDIR", unset = file.path(project_root, "results", "task_5_enhancer_promoter"))
 
-mouse_peak_file <- file.path(workdir, "mouse_specific.bed")
-human_peak_file <- file.path(workdir, "human_specific.bed")
-cons_human_in_mouse_file <- file.path(workdir, "conserved_human_in_mouse.bed")
+mouse_peak_file <- file.path(input_dir, "mouse_specific.bed")
+human_peak_file <- file.path(input_dir, "human_specific.bed")
+cons_human_in_mouse_file <- file.path(input_dir, "conserved_human_in_mouse.bed")
 
 human_tss_file <- "/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed"
 mouse_tss_file <- "/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed"
 
-outdir <- file.path(workdir, "results")
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+
+required_files <- c(
+  mouse_peak_file,
+  human_peak_file,
+  cons_human_in_mouse_file,
+  human_tss_file,
+  mouse_tss_file
+)
+missing_files <- required_files[!file.exists(required_files)]
+if (length(missing_files) > 0) {
+  stop(
+    paste0(
+      "Missing required input files for Task 5:\n",
+      paste(missing_files, collapse = "\n"),
+      "\nSet TASK5_INPUT_DIR or PROJECT_ROOT as needed."
+    )
+  )
+}
 
 read_clean_bed <- function(file) {
   gr <- import(file)

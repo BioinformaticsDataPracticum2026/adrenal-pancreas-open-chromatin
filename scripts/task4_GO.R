@@ -40,8 +40,8 @@ mouse_tss_source <- "mm10"
 human_tss_source <- "hg38"
 ontology_to_run  <- "GO:BP"
 
-input_dir <- "/.../..."
-outdir    <- "/.../..."
+input_dir <- Sys.getenv("TASK4_INPUT_DIR", unset = "results/mapping")
+outdir    <- Sys.getenv("TASK4_OUTDIR", unset = "results/task_4_go_analysis")
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
 # -----------------------------
@@ -53,6 +53,25 @@ conserved_hm_file   <- file.path(input_dir, "conserved_human_in_mouse.bed")
 
 mouse_bg_file <- file.path(input_dir, "mouse_pancreas_ocr.processed.bed")
 human_bg_file <- file.path(input_dir, "human_pancreas_ocr.processed.bed")
+
+required_files <- c(
+  mouse_specific_file,
+  human_specific_file,
+  conserved_hm_file,
+  mouse_bg_file,
+  human_bg_file
+)
+
+missing_files <- required_files[!file.exists(required_files)]
+if (length(missing_files) > 0) {
+  stop(
+    paste0(
+      "Missing required input files for Task 4:\n",
+      paste(missing_files, collapse = "\n"),
+      "\nSet TASK4_INPUT_DIR if your files are in a different location."
+    )
+  )
+}
 
 # -----------------------------
 # 3. Read BED files
