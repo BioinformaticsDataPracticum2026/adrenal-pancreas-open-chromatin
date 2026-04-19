@@ -313,7 +313,7 @@ Rscript step5_promoter_enhancer.R
 - `results/task_5_enhancer_promoter/enhancer_promoter_ratio.png`
 - `results/task_5_enhancer_promoter/all_three_panel.png`
 
-
+---
 
 ## Step 6: Motif Discovery in Conserved Promoters vs. Enhancers
 
