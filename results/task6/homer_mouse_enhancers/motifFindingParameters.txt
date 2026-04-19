@@ -1,0 +1,1 @@
+cmd = results/task6_motifs/mouse_enhancers.bed /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa results/task6_motifs/homer_mouse_enhancers/ -size given -preparsedDir results/task6_motifs/preparsed_mouse_enh/ -p 8

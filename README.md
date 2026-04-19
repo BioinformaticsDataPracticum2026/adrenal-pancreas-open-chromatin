@@ -312,3 +312,56 @@ Rscript step5_promoter_enhancer.R
 - `results/task_5_enhancer_promoter/proportion_count_panel.png`
 - `results/task_5_enhancer_promoter/enhancer_promoter_ratio.png`
 - `results/task_5_enhancer_promoter/all_three_panel.png`
+
+
+
+## Step 6: Motif Discovery in Conserved Promoters vs. Enhancers
+
+### Overview
+This step identifies the regulatory "language" driving the conserved adrenal and pancreas Open Chromatin Regions (OCRs). By integrating the spatial definitions from Step 5, the conserved orthologous peaks are partitioned into proximal promoters and distal enhancers. HOMER is then utilized to perform motif enrichment analysis, distinguishing ubiquitous basal transcriptional machinery from tissue-specific master regulators.
+
+### Prerequisites
+* **bedtools** (for spatial partitioning)
+* **HOMER** (`findMotifsGenome.pl` for *de novo* and known motif discovery)
+* **Python 3** with `pandas`, `matplotlib`, and `seaborn` (for visualization)
+
+### Input Files
+* `results/task6_motifs/human_ortho_unique.bed` (Conserved human peaks from Step 3)
+* `results/task6_motifs/mouse_ortho_unique.bed` (Conserved mouse peaks from Step 3)
+* **Human TSS Reference:** `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
+* **Mouse TSS Reference:** `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed`
+
+
+### Execution Pipeline
+
+**0. Preparing Orthologous BED Files**
+Before running spatial partitioning, the raw orthologous pair data must be converted into species-specific BED files using the provided Python script:
+```bash
+python scripts/task6_pre.py
+**1. Partitioning Peaks into Promoters and Enhancers**
+Using `bedtools window`, peaks within 2 kb of a TSS are classified as promoters (`-u`), while distal peaks are classified as enhancers (`-v`).
+
+*Example (Human Data):*
+```bash
+# Extract Human Promoters
+bedtools window -w 2000 -a results/task6_motifs/human_ortho_unique.bed -b /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed -u > results/task6_motifs/human_promoters.bed
+
+# Extract Human Enhancers
+bedtools window -w 2000 -a results/task6_motifs/human_ortho_unique.bed -b /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed -v > results/task6_motifs/human_enhancers.bed
+
+
+
+# Human Promoters
+findMotifsGenome.pl results/task6_motifs/human_promoters.bed /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa results/task6_motifs/homer_human_promoters/ -size given -preparsedDir results/task6_motifs/preparsed_human/
+
+# Human Enhancers
+findMotifsGenome.pl results/task6_motifs/human_enhancers.bed /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa results/task6_motifs/homer_human_enhancers/ -size given -preparsedDir results/task6_motifs/preparsed_human/
+
+# Mouse Promoters
+findMotifsGenome.pl results/task6_motifs/mouse_promoters.bed /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa results/task6_motifs/homer_mouse_promoters/ -size given -preparsedDir results/task6_motifs/preparsed_mouse/
+
+# Mouse Enhancers
+findMotifsGenome.pl results/task6_motifs/mouse_enhancers.bed /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa results/task6_motifs/homer_mouse_enhancers/ -size given -preparsedDir results/task6_motifs/preparsed_mouse/
+
+**2. Analize the results**
+run task6_analize.py
