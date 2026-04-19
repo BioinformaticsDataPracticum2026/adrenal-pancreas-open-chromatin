@@ -109,7 +109,7 @@ The pipeline keeps Task 2 outputs easy to reuse later by preserving stable OCR I
 
 ---
 
-## Task 4: GO biological process enrichment of species-specific and conserved open chromatin regions
+## Step 4: GO biological process enrichment of species-specific and conserved open chromatin regions
 
 ### Overview
 This task performs GO Biological Process enrichment analysis on species-specific and conserved open chromatin regions using `rGREAT`, a region-based enrichment framework designed for genomic intervals rather than pre-defined gene lists.
@@ -246,7 +246,7 @@ This directory currently contains:
 
 ---
 
-## Task 5: Promoter- and Enhancer-Associated OCR Classification
+## Step 5: Promoter- and Enhancer-Associated OCR Classification
 
 ### Objective
 To compare regulatory composition across species-specific and conserved open chromatin regions by classifying peaks into promoter-associated versus enhancer-associated categories.
