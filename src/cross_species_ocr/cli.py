@@ -8,6 +8,16 @@ from .pipeline import discover_inputs, run_pipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """
+    Build argument parser for Task 2 pipeline CLI.
+    
+    Subcommands:
+        discover: Show discovered input files without running pipeline.
+        run: Execute the full or partial pipeline.
+    
+    Returns:
+        Configured ArgumentParser.
+    """
     parser = argparse.ArgumentParser(description='Task 2 pancreas cross-species OCR mapping pipeline')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
@@ -22,14 +32,26 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """
+    Main entry point for Task 2 pipeline CLI.
+    
+    Args:
+        argv: Command-line arguments (uses sys.argv if None).
+    
+    Returns:
+        Exit code (0 for success, non-zero for failure).
+    """
     parser = build_parser()
     args = parser.parse_args(argv)
     config = load_config(args.config)
 
     if args.command == 'discover':
-        print(json.dumps(discover_inputs(config), indent=2))
+        # Discover and print input file locations
+        discovered = discover_inputs(config)
+        print(json.dumps(discovered, indent=2))
         return 0
 
+    # Run the pipeline with optional flags
     outputs = run_pipeline(config, skip_mapping=args.skip_mapping, skip_annotation=args.skip_annotation)
     print(json.dumps({key: str(value) for key, value in outputs.items()}, indent=2))
     return 0
