@@ -102,7 +102,7 @@ python3 scripts/task6_pre.py
 python3 scripts/task6_analize.py
 ```
 
-## Key Outputs
+## Key Inputs & Outputs
 
 ### Task 2 mapping outputs
 
@@ -120,13 +120,36 @@ python3 scripts/task6_analize.py
 3. results/mapping/human_specific.bed
 4. results/mapping/mouse_specific.bed
 
-### Task 4 outputs
+### Task 4
+#### Inputs:
 
-Stored under results/task_4_go_analysis/.
+1. results/mapping/mouse_specific.bed
+2. results/mapping/human_specific.bed
+3. results/mapping/conserved_human_in_mouse.bed
+4. results/mapping/mouse_pancreas_ocr.processed.bed
+5. results/mapping/human_pancreas_ocr.processed.bed
+#### Outputs:
 
-### Task 5 outputs
+1. results/task_4_go_analysis/mouse_specific_rGREAT_GO_BP.csv
+2. results/task_4_go_analysis/mouse_specific_rGREAT_GO_BP_sig.csv
+3. results/task_4_go_analysis/human_specific_rGREAT_GO_BP.csv
+4. results/task_4_go_analysis/human_specific_rGREAT_GO_BP_sig.csv
+5. results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP.csv
+6. results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP_sig.csv
+7. results/task_4_go_analysis/combined_mouse_human_conserved_sig_terms.csv
 
-Stored under results/task_5_enhancer_promoter/.
+### Task 5
+#### Inputs:
+1. results/mapping/mouse_specific.bed
+2. results/mapping/human_specific.bed
+3. results/mapping/conserved_human_in_mouse.bed
+4. results/mapping/human_tss.bed
+5. results/mapping/mouse_tss.bed
+
+#### Outputs:
+1. results/task_5_enhancer_promoter/step5_peak_assignment.csv
+2. results/task_5_enhancer_promoter/step5_count_summary.csv
+3. results/task_5_enhancer_promoter/step5_proportion_summary.csv
 
 ### Task 6 outputs
 
