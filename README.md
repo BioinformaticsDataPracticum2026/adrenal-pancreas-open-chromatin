@@ -181,7 +181,7 @@ Stored under results/task6/.
 
 ## Known Limitations
 
-1. Some Task 4/5/6 scripts currently include user-specific absolute paths and may need edits before rerun on another account.
+1. Task 6 scripts currently include user-specific absolute paths and may need edits before rerun on another account.
 2. Task 2 ortholog calling is conservative due to reciprocal best-hit strategy.
 3. Temporary liftover artifacts can be large; keep results/mapping/tmp/ out of commits.
 
