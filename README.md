@@ -92,7 +92,7 @@ Rscript scripts/task4_GO.R
 ### Task 5: Promoter/enhancer classification
 
 ```bash
-Rscript scripts/step5_promoter_enhancer.R
+Rscript scripts/task5_promoter_enhancer.R
 ```
 
 ### Task 6: Motif analysis support
@@ -161,9 +161,9 @@ Stored under results/task6/.
 
 ## Demo Videos
 
-### Step 4
-- Video: [Step 4 Demo (GO BP Enrichment)](https://youtu.be/CB8uWG67Mug)
+### Task 4
+- Video: [Task 4 Demo (GO BP Enrichment)](https://youtu.be/CB8uWG67Mug)
 
-### Step 5
-- Video: [Step 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
+### Task 5
+- Video: [Task 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
 
