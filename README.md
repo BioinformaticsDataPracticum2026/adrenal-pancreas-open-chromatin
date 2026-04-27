@@ -82,7 +82,7 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run --config config
 ```bash
 bash scripts/task_3_compare_ocrs_v3.sh
 ```
-- [Task 3 script](./scripts/task_3_compare_ocrs_v3)
+- [Task 3 script](./scripts/task_3_compare_ocrs_v3.sh)
   
 
 ### Task 4: GO enrichment (rGREAT)
