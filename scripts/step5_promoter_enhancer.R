@@ -14,9 +14,8 @@ outdir <- Sys.getenv("TASK5_OUTDIR", unset = file.path(project_root, "results", 
 mouse_peak_file <- file.path(input_dir, "mouse_specific.bed")
 human_peak_file <- file.path(input_dir, "human_specific.bed")
 cons_human_in_mouse_file <- file.path(input_dir, "conserved_human_in_mouse.bed")
-
-human_tss_file <- "/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed"
-mouse_tss_file <- "/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed"
+human_tss_file <- file.path(input_dir, "human_tss.bed")
+mouse_tss_file <- file.path(input_dir, "mouse_tss.bed")
 
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
