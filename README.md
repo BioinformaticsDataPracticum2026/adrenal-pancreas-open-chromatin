@@ -88,12 +88,15 @@ bash scripts/task_3_compare_ocrs_v3.sh
 ```bash
 Rscript scripts/task4_GO.R
 ```
+- [Task 4 script](./scripts/task4_GO.R)
+
 
 ### Task 5: Promoter/enhancer classification
 
 ```bash
 Rscript scripts/task5_promoter_enhancer.R
 ```
+- [Task 5 script](./scripts/step5_promoter_enhancer.R)
 
 ### Task 6: Motif analysis support
 
@@ -147,7 +150,7 @@ python3 scripts/task6_analize.py
 5. results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP.csv
 6. results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP_sig.csv
 7. results/task_4_go_analysis/combined_mouse_human_conserved_sig_terms.csv
-
+- [Task 4 outputs](#task-4-outputs)
 ### Task 5
 #### Inputs:
 1. results/mapping/mouse_specific.bed
@@ -160,6 +163,7 @@ python3 scripts/task6_analize.py
 1. results/task_5_enhancer_promoter/step5_peak_assignment.csv
 2. results/task_5_enhancer_promoter/step5_count_summary.csv
 3. results/task_5_enhancer_promoter/step5_proportion_summary.csv
+- [Task 5 outputs](#task-5-outputs)
 
 ### Task 6 outputs
 
