@@ -178,3 +178,37 @@ identifying species-specific OCRs via reciprocal overlap filtering
 > genomic features. *Bioinformatics*. 2010;26(6):841-842. 
 > [doi:10.1093/bioinformatics/btq033](https://doi.org/10.1093/bioinformatics/btq033)
 
+
+This pipeline also uses [rGREAT](https://bioconductor.org/packages/rGREAT/) for 
+region-based GO Biological Process enrichment of OCR sets. If you use this 
+pipeline, please cite:
+
+> McLean CY, Bristor D, Hiller M, Clarke SL, Schaar BT, Lowe CB, Wenger AM, 
+> Bejerano G. GREAT improves functional interpretation of cis-regulatory regions. 
+> *Nature Biotechnology*. 2010;28(5):495-501. 
+> [doi:10.1038/nbt.1630](https://doi.org/10.1038/nbt.1630)
+
+This pipeline uses [GenomicRanges](https://bioconductor.org/packages/GenomicRanges/) 
+for genomic interval representation and overlap operations in R. If you use this 
+pipeline, please cite:
+
+> Lawrence M, Huber W, Pagès H, Aboyoun P, Carlson M, Gentleman R, Morgan MT, 
+> Carey VJ. Software for computing and annotating genomic ranges. 
+> *PLoS Computational Biology*. 2013;9(8):e1003118. 
+> [doi:10.1371/journal.pcbi.1003118](https://doi.org/10.1371/journal.pcbi.1003118)
+
+This pipeline uses [rtracklayer](https://bioconductor.org/packages/rtracklayer/) 
+to import and export genome annotation files (e.g., BED) in R. If you use this 
+pipeline, please cite:
+
+> Lawrence M, Gentleman R, Carey V. rtracklayer: an R package for interfacing 
+> with genome browsers. *Bioinformatics*. 2009;25(14):1841-1842. 
+> [doi:10.1093/bioinformatics/btp328](https://doi.org/10.1093/bioinformatics/btp328)
+
+This pipeline uses the [Gene Ontology](https://geneontology.org/) resource for 
+Biological Process term definitions and annotation. If you use this pipeline, 
+please cite:
+
+> The Gene Ontology Consortium. The Gene Ontology resource: enriching a GOld mine. 
+> *Nucleic Acids Research*. 2021;49(D1):D325-D334. 
+> [doi:10.1093/nar/gkaa1113](https://doi.org/10.1093/nar/gkaa1113)
