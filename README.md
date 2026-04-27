@@ -113,12 +113,22 @@ python3 scripts/task6_analize.py
 5. results/figures/task2_mapping_counts.png
 6. results/figures/task2_mapping_rates.png
 
-### Task 3 outputs
+### Task 3 
+#### Inputs:
 
-1. results/mapping/conserved_human_in_mouse.bed
-2. results/mapping/conserved_mouse_in_human.bed
-3. results/mapping/human_specific.bed
-4. results/mapping/mouse_specific.bed
+1. results/mapping/human_pancreas_ocr.processed.bed
+2. results/mapping/mouse_pancreas_ocr.processed.bed
+3. results/mapping/tmp/human_to_mouse.lifted.bed
+4. results/mapping/tmp/mouse_to_human.lifted.bed
+5. results/mapping/orthologous_ocr_pairs.tsv
+#### Outputs:
+
+1. results/mapping/tmp/human_to_mouse.lifted.merged.bed
+2. results/mapping/tmp/mouse_to_human.lifted.merged.bed
+3. results/mapping/conserved_human_in_mouse.bed
+4. results/mapping/conserved_mouse_in_human.bed
+5. results/mapping/human_specific.bed
+6. results/mapping/mouse_specific.bed
 
 ### Task 4
 #### Inputs:
