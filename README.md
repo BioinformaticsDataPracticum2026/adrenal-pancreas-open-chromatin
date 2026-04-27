@@ -200,6 +200,9 @@ Stored under results/task6/.
 
 ## Demo Videos
 
+### Task 2
+- Video: [Task 2 Demo (Cross-Species Mapping)](https://youtu.be/-IAszN7KlHI?si=o2VrlK41F1mDozUq)
+
 ### Task 3
 - Video: [Task 3 Demo (OCR Comparison)](https://youtu.be/ZyHVatZ3sHM?si=M-0xn3bfwic-X8yj)
 
