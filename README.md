@@ -200,6 +200,9 @@ Stored under results/task6/.
 
 ## Demo Videos
 
+### Task 3
+- Video: [Task 3 Demo (OCR Comparison)](https://youtu.be/ZyHVatZ3sHM?si=M-0xn3bfwic-X8yj)
+
 ### Task 4
 - Video: [Task 4 Demo (GO BP Enrichment)](https://youtu.be/CB8uWG67Mug)
 
