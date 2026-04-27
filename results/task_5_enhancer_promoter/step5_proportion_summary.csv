@@ -1,7 +1,7 @@
 "dataset","region_class","count","total","prop","prop_label","label_y"
 "Mouse-specific","Enhancer",19963,21834,0.914307960062288,"91%",0.457153980031144
 "Mouse-specific","Promoter",1871,21834,0.0856920399377118,"9%",0.957153980031144
-"Human-specific","Enhancer",50709,55930,0.906651171106741,"91%",0.45332558555337
+"Human-specific","Enhancer",50709,55930,0.90665117110674,"91%",0.45332558555337
 "Human-specific","Promoter",5221,55930,0.0933488288932594,"9%",0.95332558555337
 "Conserved (human in mouse)","Enhancer",1196,2566,0.466095089633671,"47%",0.233047544816836
 "Conserved (human in mouse)","Promoter",1370,2566,0.533904910366329,"53%",0.733047544816836

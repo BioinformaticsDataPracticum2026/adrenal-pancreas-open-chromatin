@@ -145,9 +145,9 @@ prop_df <- count_df %>%
   ) %>%
   ungroup()
 
-write.csv(df, file.path(outdir, "step5_peak_assignment.csv"), row.names = FALSE)
-write.csv(count_df, file.path(outdir, "step5_count_summary.csv"), row.names = FALSE)
-write.csv(prop_df, file.path(outdir, "step5_proportion_summary.csv"), row.names = FALSE)
+write.csv(df, file.path(outdir, "task5_peak_assignment.csv"), row.names = FALSE)
+write.csv(count_df, file.path(outdir, "task5_count_summary.csv"), row.names = FALSE)
+write.csv(prop_df, file.path(outdir, "task5_proportion_summary.csv"), row.names = FALSE)
 
 # -----------------------------
 # plot setup
@@ -244,24 +244,6 @@ p3 <- ggplot(ratio_df, aes(x = dataset, y = enhancer_promoter_ratio, fill = data
 # -----------------------------
 # save
 # -----------------------------
-ggsave(
-  file.path(plotdir, "proportion_count_panel.png"),
-  p1 | p2,
-  width = 13,
-  height = 5.8,
-  dpi = 300,
-  bg = "white"
-)
-
-ggsave(
-  file.path(plotdir, "enhancer_promoter_ratio.png"),
-  p3,
-  width = 7,
-  height = 5,
-  dpi = 300,
-  bg = "white"
-)
-
 ggsave(
   file.path(plotdir, "all_three_panel.png"),
   p1 | p2 | p3,
