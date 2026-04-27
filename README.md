@@ -158,3 +158,12 @@ Stored under results/task6/.
 2. Review and adjust config files as needed.
 3. Run task scripts in order (Task 2 -> Task 3 -> Task 4/5 -> Task 6).
 4. Keep method updates documented in docs/ and submit figures/tables from results/.
+
+## Demo Videos
+
+### Step 4
+- Video: [Step 4 Demo (GO BP Enrichment)](https://youtu.be/CB8uWG67Mug)
+
+### Step 5
+- Video: [Step 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
+
