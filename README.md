@@ -106,7 +106,7 @@ Rscript scripts/task5_promoter_enhancer.R
 python3 scripts/task6_pre.py
 python3 scripts/task6_analize.py
 ```
-
+- [Task 5 script](./scripts/task6_analyze.py)
 ## Key Inputs & Outputs
 
 ### Task 2 mapping outputs
