@@ -170,7 +170,7 @@ python3 scripts/task6_analize.py
 ### Task 6 outputs
 
 Stored under results/task6/.
-- [Task 5 outputs](.results/task6)
+- [Task 6 outputs](.results/task6)
 ## Documentation
 
 1. docs/task2_cross_species_mapping.md
