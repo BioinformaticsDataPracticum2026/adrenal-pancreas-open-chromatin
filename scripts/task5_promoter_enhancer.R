@@ -253,5 +253,4 @@ ggsave(
   bg = "white"
 )
 
-print(p1 | p2 | p3)
 cat("\nDone. Plots saved to:", plotdir, "\n")

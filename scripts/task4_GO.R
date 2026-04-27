@@ -343,8 +343,6 @@ make_single_dotplot <- function(tb, panel_title, filename, width = 7.5, height =
       plot.margin        = margin(8, 16, 8, 8)
     )
   
-  print(p)
-  
   ggsave(
     file.path(outdir, filename),
     p,
