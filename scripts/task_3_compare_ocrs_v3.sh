@@ -20,7 +20,7 @@ mkdir -p $OUTDIR
 awk 'NR>1' results/mapping/tmp/human_to_mouse.lifted.bed | \
   sort -k4,4 -k1,1 -k2,2n | \
   bedtools groupby -g 1,4 -c 2,3 -o min,max | \
-  awk '{print $1"\t"$3"\t"$4"\t"$2}' | \
+  awk '{print $1"\t"$3"\t"$4"\t"$2"\t1000\t."}' | \
   sort -k1,1 -k2,2n > results/mapping/tmp/human_to_mouse.lifted.merged.bed
 echo "Done: merged human to mouse lifted regions"
 
@@ -39,7 +39,7 @@ awk 'NR==FNR {best[$1]=$2; next} ($4 in best) && best[$4]==$1' \
   results/mapping/tmp/mouse_to_human.lifted.bed | \
   sort -k4,4 -k1,1 -k2,2n | \
   bedtools groupby -g 1,4 -c 2,3 -o min,max | \
-  awk '{print $1"\t"$3"\t"$4"\t"$2}' | \
+  awk '{print $1"\t"$3"\t"$4"\t"$2"\t1000\t."}' | \
   sort -k1,1 -k2,2n > results/mapping/tmp/mouse_to_human.lifted.merged.bed
 echo "Done: merged mouse to human lifted regions"
 
