@@ -167,3 +167,14 @@ Stored under results/task6/.
 ### Task 5
 - Video: [Task 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
 
+## Citation
+
+This pipeline uses [bedtools](https://bedtools.readthedocs.io/) for genomic interval 
+operations, including merging lifted peak fragments (`bedtools groupby`) and 
+identifying species-specific OCRs via reciprocal overlap filtering 
+(`bedtools intersect`). If you use this pipeline, please cite:
+
+> Quinlan AR, Hall IM. BEDTools: a flexible suite of utilities for comparing 
+> genomic features. *Bioinformatics*. 2010;26(6):841-842. 
+> [doi:10.1093/bioinformatics/btq033](https://doi.org/10.1093/bioinformatics/btq033)
+
