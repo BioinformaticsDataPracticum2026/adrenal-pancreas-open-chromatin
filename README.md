@@ -179,7 +179,7 @@ identifying species-specific OCRs via reciprocal overlap filtering
 > [doi:10.1093/bioinformatics/btq033](https://doi.org/10.1093/bioinformatics/btq033)
 
 
-This pipeline also uses [rGREAT](https://bioconductor.org/packages/rGREAT/) for 
+This pipeline uses [rGREAT](https://bioconductor.org/packages/rGREAT/) for 
 region-based GO Biological Process enrichment of OCR sets. If you use this 
 pipeline, please cite:
 
