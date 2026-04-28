@@ -218,7 +218,7 @@ Stored under results/task6/.
 - Video: [Task 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
 
 ### Task 6
-- Video: [Task 6 Demo (ranscription Factor Motif Enrichment)](https://www.youtube.com/watch?v=pofi3isRvKM)
+- Video: [Task 6 Demo (Transcription Factor Motif Enrichment)](https://www.youtube.com/watch?v=pofi3isRvKM)
 
 ## Tools Used 
 
