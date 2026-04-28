@@ -42,6 +42,7 @@ ontology_to_run  <- "GO:BP"
 
 input_dir <- Sys.getenv("TASK4_INPUT_DIR", unset = "results/mapping")
 outdir    <- Sys.getenv("TASK4_OUTDIR", unset = "results/task_4_go_analysis")
+# Allow the script to be reused in other folders without editing hard-coded paths.
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
 # -----------------------------
@@ -54,6 +55,9 @@ conserved_hm_file   <- file.path(input_dir, "conserved_human_in_mouse.bed")
 mouse_bg_file <- file.path(input_dir, "mouse_pancreas_ocr.processed.bed")
 human_bg_file <- file.path(input_dir, "human_pancreas_ocr.processed.bed")
 
+# Species-specific peak sets are tested against their own full OCR universe.
+# The conserved human-in-mouse set is already represented in mouse coordinates,
+# so it is evaluated against the mouse OCR background.
 
 # -----------------------------
 # 3. Read BED files
@@ -69,6 +73,8 @@ human_universe <- import(human_bg_file)
 # 4. Clean helper
 # -----------------------------
 clean_gr <- function(gr) {
+  # Keep only standard chromosomes, sort intervals, and merge overlaps so that
+  # downstream counts are based on non-redundant genomic regions.
   gr <- keepStandardChromosomes(gr, pruning.mode = "coarse")
   gr <- sort(gr)
   gr <- reduce(gr)
@@ -84,6 +90,8 @@ human_universe <- clean_gr(human_universe)
 # -----------------------------
 # 5. Basic QC
 # -----------------------------
+# These summaries help confirm that the query sets look reasonable before
+# enrichment is run and that each set is represented in its intended background.
 mouse_specific_in_bg <- sum(countOverlaps(mouse_specific, mouse_universe) > 0)
 human_specific_in_bg <- sum(countOverlaps(human_specific, human_universe) > 0)
 conserved_hm_in_bg   <- sum(countOverlaps(conserved_hm, mouse_universe) > 0)
@@ -110,6 +118,8 @@ cat("conserved_human_in_mouse overlapping mouse_universe:", conserved_hm_in_bg, 
 # -----------------------------
 # 6. Run rGREAT
 # -----------------------------
+# Run each enrichment independently so every OCR category keeps its own
+# species-appropriate TSS annotation source and background universe.
 mouse_job <- great(
   gr = mouse_specific,
   gene_sets = ontology_to_run,
@@ -162,6 +172,8 @@ write.csv(
 standardize_tbl <- function(tb, label) {
   tb2 <- tb
   
+  # rGREAT output column names can vary by version; resolve them once here
+  # so the downstream filtering and plotting code can use a consistent schema.
   term_col <- intersect(c("name", "term_name", "description"), colnames(tb2))
   if (length(term_col) == 0) stop("Cannot find term name column.")
   term_col <- term_col[1]
@@ -180,6 +192,7 @@ standardize_tbl <- function(tb, label) {
   
   tb2$term_name_final <- tb2[[term_col]]
   tb2$padj_final <- tb2[[padj_col]]
+  # Convert adjusted p-values to the plotting scale used in the dotplots.
   tb2$neglog10_padj <- -log10(tb2$padj_final)
   tb2$dataset <- label
   
@@ -193,6 +206,8 @@ conserved_hm_tbl2 <- standardize_tbl(conserved_hm_tbl, "conserved_human_in_mouse
 # -----------------------------
 # 9. Significant terms
 # -----------------------------
+# Save both the full tables and the FDR-filtered subset so later steps can use
+# either the complete enrichment output or just the significant terms.
 mouse_sig <- mouse_tbl2 %>%
   filter(!is.na(padj_final), padj_final < 0.05) %>%
   arrange(padj_final)
@@ -231,6 +246,8 @@ cat("conserved_human_in_mouse:", nrow(conserved_hm_sig), "\n\n")
 # -----------------------------
 # 10. Top 10 terms for plotting
 # -----------------------------
+# Plotting uses the most significant terms among rows with finite values on the
+# transformed x-axis, which avoids infinite values from zero-like p-values.
 mouse_plot <- mouse_tbl2 %>%
   filter(!is.na(padj_final), is.finite(neglog10_padj)) %>%
   arrange(padj_final) %>%
@@ -276,10 +293,14 @@ make_single_dotplot <- function(tb, panel_title, filename, width = 7.5, height =
   tb2 <- tb %>%
     arrange(padj_final) %>%
     mutate(
+      # Wrap long GO term labels so they stay readable in a fixed-height panel.
       term_name_final = str_wrap(term_name_final, width = 32),
+      # Reverse the factor order so the most significant term appears at the top.
       term_plot = factor(term_name_final, levels = rev(term_name_final))
     )
   
+  # Add a small amount of headroom so the rightmost point is not flush
+  # against the plotting boundary.
   max_x <- max(tb2$neglog10_padj, na.rm = TRUE)
   x_upper <- ceiling(max_x * 1.08 * 10) / 10
   x_upper <- max(x_upper, 1)
@@ -325,6 +346,7 @@ make_single_dotplot <- function(tb, panel_title, filename, width = 7.5, height =
       plot.margin        = margin(8, 16, 8, 8)
     )
   
+  # Save directly to file instead of printing to the active graphics device.
   ggsave(
     file.path(outdir, filename),
     p,
@@ -359,6 +381,8 @@ make_single_dotplot(
 # -----------------------------
 # 13. Save combined significant table
 # -----------------------------
+# This combined table is convenient for downstream review or cross-category
+# comparisons without having to reload three separate CSV files.
 combined_sig <- bind_rows(mouse_sig, human_sig, conserved_hm_sig)
 write.csv(
   combined_sig,
