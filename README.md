@@ -167,8 +167,19 @@ python3 scripts/task6_analize.py
 3. results/task_5_enhancer_promoter/step5_proportion_summary.csv
 - [Task 5 outputs](./results/task_5_enhancer_promoter/all_three_panel.png)
 
-### Task 6 outputs
+### Task 6
+#### Inputs:
+1. results/task6/human_ortho_unique.bed
+2. results/task6/mouse_ortho_unique.bed
+3./ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa
+4./ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa
 
+#### Outputs:
+1. results/task6/homer_human_promoters/
+2. results/task6/homer_human_enhancers/
+3. results/task6/homer_mouse_promoters/
+4. results/task6/homer_mouse_enhancers/
+5. results/task6/task6_final_result.png
 Stored under results/task6/.
 - [Task 6 outputs](.results/task6)
 
