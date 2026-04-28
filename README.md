@@ -48,7 +48,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### R 4.5.1 setup for Tasks 4-5
+### R 4.5.1 setup
 
 Install R version 4.5.1 from CRAN before running the Task 4 and Task 5 scripts:
 
@@ -95,8 +95,7 @@ Task-specific R packages:
 
 1. halLiftover for Task 2 mapping
 2. bedtools for Task 3 processing and intersections
-3. R + Bioconductor packages (rGREAT, GenomicRanges, rtracklayer, GenomeInfoDb) for Tasks 4-5
-4. HOMER for Task 6 motif analysis
+3. HOMER for Task 6 motif analysis
 
 ## Clone Repository
 
