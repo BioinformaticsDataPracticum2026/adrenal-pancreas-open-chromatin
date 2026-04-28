@@ -171,8 +171,8 @@ python3 scripts/task6_analize.py
 #### Inputs:
 1. results/task6/human_ortho_unique.bed
 2. results/task6/mouse_ortho_unique.bed
-3 ./ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa
-4 ./ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa
+3. /ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/hg38.fa
+4. /ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/mm10.fa
 
 #### Outputs:
 1. results/task6/homer_human_promoters/
