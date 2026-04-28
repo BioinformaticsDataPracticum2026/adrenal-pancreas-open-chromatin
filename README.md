@@ -220,12 +220,12 @@ Stored under results/task6/.
 ### Task 6
 - Video: [Task 6 Demo (ranscription Factor Motif Enrichment)](https://www.youtube.com/watch?v=pofi3isRvKM)
 
-## Citation
+## Tools Used 
 
 This pipeline uses [bedtools](https://bedtools.readthedocs.io/) for genomic interval 
 operations, including merging lifted peak fragments (`bedtools groupby`) and 
 identifying species-specific OCRs via reciprocal overlap filtering 
-(`bedtools intersect`). If you use this pipeline, please cite:
+(`bedtools intersect`).
 
 > Quinlan AR, Hall IM. BEDTools: a flexible suite of utilities for comparing 
 > genomic features. *Bioinformatics*. 2010;26(6):841-842. 
@@ -233,8 +233,7 @@ identifying species-specific OCRs via reciprocal overlap filtering
 
 
 This pipeline uses [rGREAT](https://bioconductor.org/packages/rGREAT/) for 
-region-based GO Biological Process enrichment of OCR sets. If you use this 
-pipeline, please cite:
+region-based GO Biological Process enrichment of OCR sets. 
 
 > McLean CY, Bristor D, Hiller M, Clarke SL, Schaar BT, Lowe CB, Wenger AM, 
 > Bejerano G. GREAT improves functional interpretation of cis-regulatory regions. 
@@ -251,17 +250,29 @@ pipeline, please cite:
 > [doi:10.1371/journal.pcbi.1003118](https://doi.org/10.1371/journal.pcbi.1003118)
 
 This pipeline uses [rtracklayer](https://bioconductor.org/packages/rtracklayer/) 
-to import and export genome annotation files (e.g., BED) in R. If you use this 
-pipeline, please cite:
+to import and export genome annotation files (e.g., BED) in R. 
 
 > Lawrence M, Gentleman R, Carey V. rtracklayer: an R package for interfacing 
 > with genome browsers. *Bioinformatics*. 2009;25(14):1841-1842. 
 > [doi:10.1093/bioinformatics/btp328](https://doi.org/10.1093/bioinformatics/btp328)
 
 This pipeline uses the [Gene Ontology](https://geneontology.org/) resource for 
-Biological Process term definitions and annotation. If you use this pipeline, 
-please cite:
+Biological Process term definitions and annotation. 
 
 > The Gene Ontology Consortium. The Gene Ontology resource: enriching a GOld mine. 
 > *Nucleic Acids Research*. 2021;49(D1):D325-D334. 
 > [doi:10.1093/nar/gkaa1113](https://doi.org/10.1093/nar/gkaa1113)
+
+## Authors
+- Aryan Sharan Guda: aryanshg@andrew.cmu.edu
+- Joe Wang: joewang@andrew.cmu.edu
+- Wenxin Zhang: zhangwez@andrew.cmu.edu
+- Mrunmayee Wankhede: mwankhed@andrew.cmu.edu
+
+## How to Cite
+
+If you use this pipeline in your work, please cite it as:
+
+> Guda AS, Wang J, Zhang W, Wankhede M. Adrenal-Pancreas Open Chromatin Comparative Project: A pipeline for cross-species OCR mapping, functional enrichment, and motif discovery in human and mouse pancreas. 2026. https://github.com/BioinformaticsDataPracticum2026/adrenal-pancreas-open-chromatin
+
+Please also cite the underlying tools used by this pipeline (bedtools, halLiftover, rGREAT, GenomicRanges, rtracklayer, HOMER, Gene Ontology) as listed in the [Tools Used](#tools-used) section.
