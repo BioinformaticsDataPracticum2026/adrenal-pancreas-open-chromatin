@@ -263,6 +263,7 @@ The script tests each OCR set against its species-matched background (e.g., mous
   - [conserved_human_in_mouse_rGREAT_GO_BP.csv](results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP.csv)
   - [conserved_human_in_mouse_rGREAT_GO_BP_sig.csv](results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP_sig.csv)
   - [combined_mouse_human_conserved_sig_terms.csv](results/task_4_go_analysis/combined_mouse_human_conserved_sig_terms.csv)
+  - [combined_top10_dotplots.png](results/task_4_go_analysis/combined_top10_dotplots.png)
 
 ### Task 5: Promoter vs Enhancer Classification
 
@@ -369,6 +370,7 @@ This generates separate motif reports for human/mouse promoters and enhancers.
 | `results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP.csv` | All GO terms for conserved OCRs |
 | `results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP_sig.csv` | Significant GO terms (p < 0.05) |
 | `results/task_4_go_analysis/combined_mouse_human_conserved_sig_terms.csv` | Merged significant terms across all sets |
+| `results/task_4_go_analysis/combined_top10_dotplots.png` | Visualization of top GO terms as dot plot |
 
 ### Task 5: Promoter/Enhancer Classification
 
