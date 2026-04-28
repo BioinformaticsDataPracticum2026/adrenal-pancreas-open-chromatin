@@ -208,6 +208,14 @@ PYTHONPATH=src python3 scripts/run_task2_pancreas_mapping.py run \
   --config config/task2_pancreas_mapping.yaml --skip-mapping
 ```
 
+**Task 2 Outputs:** See [Task 2: Cross-Species Mapping](#task-2-cross-species-mapping-1) in the [Input and Output Reference](#input-and-output-reference) section for detailed file descriptions:
+- [results/mapping/orthologous_ocr_pairs.tsv](results/mapping/orthologous_ocr_pairs.tsv)
+- [results/mapping/human_non_orthologous_ocr.tsv](results/mapping/human_non_orthologous_ocr.tsv)
+- [results/mapping/mouse_non_orthologous_ocr.tsv](results/mapping/mouse_non_orthologous_ocr.tsv)
+- [results/tables/task2_mapping_summary.tsv](results/tables/task2_mapping_summary.tsv)
+- [results/figures/task2_mapping_counts.png](results/figures/task2_mapping_counts.png)
+- [results/figures/task2_mapping_rates.png](results/figures/task2_mapping_rates.png)
+
 ### Task 3: Conserved vs Species-Specific OCRs
 
 **Purpose:** Partition OCRs into conserved (found in both species) and species-specific categories.
@@ -223,6 +231,12 @@ bash scripts/task_3_compare_ocrs_v3.sh
 ```
 
 The script automatically uses Task 2 outputs. It merges fragmented liftover artifacts and identifies conserved regions through reciprocal overlap analysis.
+
+**Task 3 Outputs:** See [Task 3: OCR Comparison](#task-3-ocr-comparison-1) in the [Input and Output Reference](#input-and-output-reference) section for detailed descriptions:
+- [results/mapping/conserved_human_in_mouse.bed](results/mapping/conserved_human_in_mouse.bed)
+- [results/mapping/conserved_mouse_in_human.bed](results/mapping/conserved_mouse_in_human.bed)
+- [results/mapping/human_specific.bed](results/mapping/human_specific.bed)
+- [results/mapping/mouse_specific.bed](results/mapping/mouse_specific.bed)
 
 ### Task 4: GO Biological Process Enrichment
 
@@ -240,6 +254,16 @@ Rscript scripts/task4_GO.R
 
 The script tests each OCR set against its species-matched background (e.g., mouse-specific OCRs vs. all mouse pancreas OCRs) to identify functionally relevant terms.
 
+**Task 4 Outputs:** See [Task 4: GO Enrichment](#task-4-go-enrichment-1) in the [Input and Output Reference](#input-and-output-reference) section for detailed file descriptions:
+- [results/task_4_go_analysis/](results/task_4_go_analysis/) (main output directory)
+  - [mouse_specific_rGREAT_GO_BP.csv](results/task_4_go_analysis/mouse_specific_rGREAT_GO_BP.csv)
+  - [mouse_specific_rGREAT_GO_BP_sig.csv](results/task_4_go_analysis/mouse_specific_rGREAT_GO_BP_sig.csv)
+  - [human_specific_rGREAT_GO_BP.csv](results/task_4_go_analysis/human_specific_rGREAT_GO_BP.csv)
+  - [human_specific_rGREAT_GO_BP_sig.csv](results/task_4_go_analysis/human_specific_rGREAT_GO_BP_sig.csv)
+  - [conserved_human_in_mouse_rGREAT_GO_BP.csv](results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP.csv)
+  - [conserved_human_in_mouse_rGREAT_GO_BP_sig.csv](results/task_4_go_analysis/conserved_human_in_mouse_rGREAT_GO_BP_sig.csv)
+  - [combined_mouse_human_conserved_sig_terms.csv](results/task_4_go_analysis/combined_mouse_human_conserved_sig_terms.csv)
+
 ### Task 5: Promoter vs Enhancer Classification
 
 **Purpose:** Classify OCRs as promoter-proximal (±2 kb from TSS) or distal enhancers.
@@ -255,6 +279,13 @@ Rscript scripts/task5_promoter_enhancer.R
 ```
 
 Outputs include peak-level assignments and summary statistics for each OCR category.
+
+**Task 5 Outputs:** See [Task 5: Promoter/Enhancer Classification](#task-5-promoter-enhancer-classification-1) in the [Input and Output Reference](#input-and-output-reference) section for detailed file descriptions:
+- [results/task_5_enhancer_promoter/](results/task_5_enhancer_promoter/) (main output directory)
+  - [step5_peak_assignment.csv](results/task_5_enhancer_promoter/step5_peak_assignment.csv)
+  - [step5_count_summary.csv](results/task_5_enhancer_promoter/step5_count_summary.csv)
+  - [step5_proportion_summary.csv](results/task_5_enhancer_promoter/step5_proportion_summary.csv)
+  - [all_three_panel.png](results/task_5_enhancer_promoter/all_three_panel.png)
 
 ### Task 6: Transcription Factor Motif Enrichment
 
@@ -272,6 +303,14 @@ python3 scripts/task6_analize.py # Analyze HOMER motif results
 ```
 
 This generates separate motif reports for human/mouse promoters and enhancers.
+
+**Task 6 Outputs:** See [Task 6: Motif Enrichment](#task-6-motif-enrichment-1) in the [Input and Output Reference](#input-and-output-reference) section for detailed descriptions:
+- [results/task6/](results/task6/) (main output directory)
+  - [homer_human_promoters/](results/task6/homer_human_promoters/)
+  - [homer_human_enhancers/](results/task6/homer_human_enhancers/)
+  - [homer_mouse_promoters/](results/task6/homer_mouse_promoters/)
+  - [homer_mouse_enhancers/](results/task6/homer_mouse_enhancers/)
+  - [task6_final_result.png](results/task6/task6_final_result.png)
 
 ## Input and Output Reference
 
