@@ -17,7 +17,6 @@ biopython
 
 # Genomics and alignment
 pysam
-halpy
 
 # Motif analysis
 logomaker
