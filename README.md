@@ -206,6 +206,9 @@ Stored under results/task6/.
 ### Task 5
 - Video: [Task 5 Demo (Promoter vs Enhancer Classification)](https://youtu.be/V_zYp4Uemik)
 
+### Task 6
+- Video: [Task 6 Demo (ranscription Factor Motif Enrichment)](https://www.youtube.com/watch?v=pofi3isRvKM)
+
 ## Citation
 
 This pipeline uses [bedtools](https://bedtools.readthedocs.io/) for genomic interval 
