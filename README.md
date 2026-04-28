@@ -14,6 +14,14 @@ This repository currently contains:
 
 Phase 1 QC deliverables are stored in results/qc/ and related notes are in docs/.
 
+## Workflow Overview
+
+![Cross-species OCR mapping workflow for pancreas](docs/figures/task_overview_pipeline_pancreas.png)
+
+Figure 1. Overview of the cross-species pancreas OCR workflow used in this repository, from ATAC-seq peak input and quality control through OCR mapping, downstream GO analysis, promoter/enhancer classification, motif enrichment, and biological interpretation.
+
+Figure note: the schematic artwork for this figure was generated with ChatGPT image generation from OpenAI and then curated for this repository. See OpenAI's official image generation documentation: https://platform.openai.com/docs/guides/images/image-generation and ChatGPT image generation help article: https://help.openai.com/en/articles/8932459-image-generation
+
 ## Repository Organization
 
 ```text
@@ -39,6 +47,49 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+### R 4.5.1 setup for Tasks 4-5
+
+Install R version 4.5.1 from CRAN before running the Task 4 and Task 5 scripts:
+
+1. Go to the CRAN download page: https://cran.r-project.org/
+2. Choose your operating system and install R 4.5.1.
+3. Start an R session and install the required packages below.
+
+For Bioconductor packages, the official Bioconductor installation page currently maps the `3.22` release to `R 4.5.x`, so the commands below use `BiocManager::install(version = "3.22")`. This compatibility note is based on the current Bioconductor install guide.
+
+```r
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+BiocManager::install(version = "3.22")
+
+install.packages(c(
+  "ggplot2",
+  "dplyr",
+  "stringr",
+  "scales",
+  "patchwork",
+  "tidyr"
+))
+
+BiocManager::install(c(
+  "rGREAT",
+  "GenomicRanges",
+  "GenomeInfoDb",
+  "rtracklayer"
+))
+```
+
+Task-specific R packages:
+
+1. Task 4 (`scripts/task4_GO.R`)
+   CRAN: `ggplot2`, `dplyr`, `stringr`
+   Bioconductor: `rGREAT`, `GenomicRanges`, `GenomeInfoDb`, `rtracklayer`
+2. Task 5 (`scripts/task5_promoter_enhancer.R`)
+   CRAN: `ggplot2`, `dplyr`, `scales`, `patchwork`, `tidyr`
+   Bioconductor: `GenomicRanges`, `GenomeInfoDb`, `rtracklayer`
 
 ### External tools
 
@@ -276,3 +327,5 @@ If you use this pipeline in your work, please cite it as:
 > Guda AS, Wang J, Zhang W, Wankhede M. Adrenal-Pancreas Open Chromatin Comparative Project: A pipeline for cross-species OCR mapping, functional enrichment, and motif discovery in human and mouse pancreas. 2026. https://github.com/BioinformaticsDataPracticum2026/adrenal-pancreas-open-chromatin
 
 Please also cite the underlying tools used by this pipeline (bedtools, halLiftover, rGREAT, GenomicRanges, rtracklayer, HOMER, Gene Ontology) as listed in the [Tools Used](#tools-used) section.
+
+If you reuse or adapt the workflow overview figure in this README, please also note that the schematic artwork was generated with ChatGPT image generation from OpenAI and curated by the project authors.
